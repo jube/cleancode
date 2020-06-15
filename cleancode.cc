@@ -49,9 +49,16 @@ int main() {
       state = State::InsideKeep;
       keep = true;
     } else if (keep) {
-      assert(state == State::Outside);
+      if (state != State::Outside && state != State::InsideKeep) {
+        std::cerr << "Line kept while not outside tags on line " << count << '\n';
+      }
+
       std::cout << line << '\n';
     }
+  }
+
+  if (state != State::Outside) {
+    std::cerr << "Missing closing tag at the end of the file\n";
   }
 
   return 0;
